@@ -11,4 +11,5 @@ public class Student implements Serializable {
 
 
     private String name;
+    private Integer sid;
 }
