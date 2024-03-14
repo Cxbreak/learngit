@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="pointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+        <property name="mappedName" value="execute"/>
+    </bean>
+    <bean id="performanceInterceptor" class="cx.study.springinitialdemo.aop.day311.advice.PerformanceMethodInterceptor">
+    </bean>
+    <bean id="performanceAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="pointcut" ref="pointcut"/>
+        <property name="advice" ref="performanceInterceptor"/>
+    </bean>
+<!--    <bean id="task" class="cx.study.springinitialdemo.aop.day311.advice.MockTask"/>-->
+    <bean id="taskProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean class="cx.study.springinitialdemo.aop.day311.advice.MockTask"/>
+        </property>
+        <!-- 默认代理为接口模式， --><!--</property>-->
+<!--        <property name="proxyInterfaces">-->
+<!--            <list>-->
+<!--                <value>cx.study.springinitialdemo.aop.day311.advice.ITask</value>-->
+<!--            </list>-->
+<!--        </property>-->
+        <property name="interceptorNames">
+            <list>
+                <value>performanceAdvisor</value>
+            </list>
+        </property>
+    </bean>
+</beans>
